@@ -1,3 +1,4 @@
+
 import pytest
 from selenium.webdriver import Chrome
 from selenium.webdriver import Firefox
@@ -9,11 +10,13 @@ from pyjavaproperties import Properties
 
 class BaseSetup:
 
+
+
     @pytest.fixture(autouse=True)
     def precondition(self):
         print('Accessing property file')
         pptobj = Properties()
-        pptobj.load(open('../config.properties'))
+        pptobj.load(open('config.properties'))
 
         self.xl_path=pptobj['XL_PATH']
         print('XL PATH',self.xl_path)
@@ -69,9 +72,11 @@ class BaseSetup:
         print('Set ETO',eto,'seconds')
         self.wait=WebDriverWait(self.driver,eto)
 
-
     @pytest.fixture(autouse=True)
-    def postcondtion(self):
+    def allure_report(self):
         yield
+        # print('bhanu check below',outcome )
+        # print(type(request.session))
+        # allure.attach(self.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         print('Close the browser')
         self.driver.quit()
